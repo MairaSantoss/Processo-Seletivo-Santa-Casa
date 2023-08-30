@@ -1,4 +1,4 @@
-<!-- resources/views/medicos.blade.php teste -->
+<!-- resources/views/medicos.blade.php  -->
 @extends('layoutes.app')
 
 @section('title', 'Médicos')
