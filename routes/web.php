@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\MedicosController;
+use App\Http\Controllers\EspecialidadesController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//php artisan make:controller MedicosController
+//php artisan make:migration especialidades          
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/medicos', [MedicosController::class , 'index'] )->name('medicos.index');
 
+Route::get('/especialidades', [EspecialidadesController::class , 'index'] )->name('especialidades.index');
 
-Route::view('/medicos', 'medicos')->name('medicos.index');
-Route::view('/especialidades', 'especialidades')->name('especialidades.index');
 Route::view('/medico_especialidades', 'medico_especialidades')->name('medico_especialidades.index');
+
