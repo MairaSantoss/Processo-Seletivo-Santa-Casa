@@ -17,7 +17,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 //php artisan make:controller MedicosController
-//php artisan make:migration especialidades          
+//php artisan make:migration especialidades       
+
+//Tabela
+//php artisan make:migration create_medicos_table
+
 Route::get('/', function () {
     return view('welcome');
 });
