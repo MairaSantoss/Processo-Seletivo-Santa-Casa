@@ -21,6 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 //Tabela
 //php artisan make:migration create_medicos_table
+//php atisan migrate
+
+//class
+//singular
+//php artisan make:model Especialidade
 
 Route::get('/', function () {
     return view('welcome');
