@@ -61,8 +61,8 @@ class EspecialidadesController extends Controller
     public function update(Request $request)
     {
         $rules = array(
-          'nome'    =>  'required',
-          'descricao'     =>  'required',
+            'nome'    =>  'required',
+            'descricao'     =>  'required',
         );
         $error = Validator::make($request->all(), $rules);
         if($error->fails())
@@ -79,6 +79,7 @@ class EspecialidadesController extends Controller
 
     public function destroy($id)
     {
+        //die($id);
         $data = Especialidade::findOrFail($id);
         $data->delete();
     }
