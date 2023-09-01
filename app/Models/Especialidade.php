@@ -13,4 +13,6 @@ class Especialidade extends Model
         'nome',
         'descricao',
     ];
+    public $timestamps = false;
+
 }
