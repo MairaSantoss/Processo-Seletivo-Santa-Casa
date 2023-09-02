@@ -39,13 +39,18 @@
         var action_url = '';
         if($('#action').val() == 'Add') { action_url = "{{ route('medicos.store') }}"; }
         if($('#action').val() == 'Edit'){ action_url = "{{ route('medicos.update') }}";}
-        console.log($('#action').val());
-        // create 
+
+        var formData = $('#formdados').serializeArray();
+
+        // Adicionar o array de especialidades ao objeto de dados
+        var vas = [55];
+        formData.push({ name: "especialidades", value: JSON.stringify(vas) });
+        console.log(formData);
         $.ajax({
             type: 'post',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: action_url,
-            data: $('#formdados').serialize(), 
+            data: formData, 
             dataType: 'json',
             success: function(data) {
                 console.log('success:', data);
@@ -134,8 +139,8 @@
 
     $(document).ready(function() {
         $('.modal').modal();
-        var table = $('.tabelaDados').DataTable({
 
+        var table = $('.tabelaDados').DataTable({
         responsive: {
         breakpoints: [
             { name: 'bigdesktop', width: Infinity },
@@ -175,6 +180,26 @@
             ]
         });
     }) 
+
+    $.ajax({
+        url: '{{ route("especialidades.select", ["id" => ":id"]) }}', 
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            var selectEspecialidades = $('#especialidades');
+            selectEspecialidades.empty(); 
+
+            $.each(data, function(index, especialidade) {
+                selectEspecialidades.append($('<option>', {
+                    value: especialidade.id,
+                    text: especialidade.nome
+                }));
+            });
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
     </script>
 @endsection
 

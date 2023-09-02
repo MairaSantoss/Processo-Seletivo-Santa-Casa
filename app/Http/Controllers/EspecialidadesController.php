@@ -4,31 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Especialidade;
 use Illuminate\Http\Request;
-use DataTables;
 use Validator;
 
 class EspecialidadesController extends Controller
 {
     public function index(Request $request){
+        $data = Especialidade::all('*');
+        if ($request->ajax()) {
+            return \Yajra\DataTables\DataTables::of($data)->addIndexColumn()
+                ->addColumn('action', function($data){
+                    $button = '<a onclick="ModalEditar(this.id)" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Edit</a>';
 
-      $data = Especialidade::all('*');
+                    $button .= '<a onclick="ModalApagar(this.id)" name="edit" id="'.$data->id.'" class="delet btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Apagar</a>';
 
-      if ($request->ajax()) {
-        $especialidade = Especialidade::all('*');
-        return DataTables::of($data)->addIndexColumn()
-            ->addColumn('action', function($data){
-                $button = '<a onclick="ModalEditar(this.id)" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Edit</a>';
-
-                $button .= '<a onclick="ModalApagar(this.id)" name="edit" id="'.$data->id.'" class="delet btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Apagar</a>';
-
-                return $button;
-            })
-            ->make(true);
-      }
-      return view('especialidades');
+                    return $button;
+                })
+                ->make(true);
+        }
+        return view('especialidades');
     }
-
-
+    
     public function store(Request $request)
     {
         $rules = array(
@@ -79,9 +74,13 @@ class EspecialidadesController extends Controller
 
     public function destroy($id)
     {
-        //die($id);
         $data = Especialidade::findOrFail($id);
         $data->delete();
     }
     
+    public function select()
+    {
+        $especialidades = Especialidade::all('*');
+        return response()->json($especialidades);
+    }
 }

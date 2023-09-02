@@ -17,6 +17,11 @@ class Medico extends Model
         'dt_cadastro'
     ];
     public $timestamps = false;
+
+    public function especialidades()
+    {
+        return $this->belongsToMany(Especialidade::class);
+    }
 }
 
 

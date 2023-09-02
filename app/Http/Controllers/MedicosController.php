@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Medico;
 use Illuminate\Http\Request;
-use DataTables;
 use Validator;
 
 class MedicosController extends Controller
@@ -12,8 +11,7 @@ class MedicosController extends Controller
     public function index(Request $request){
         $data = Medico::all('*');
         if ($request->ajax()) {
-            $Medico = Medico::all('*');
-            return DataTables::of($data)->addIndexColumn()
+            return \Yajra\DataTables\DataTables::of($data)->addIndexColumn()
             ->addColumn('action', function($data){
                 $button = '<a onclick="ModalEditar(this.id)" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Edit</a>';
 
@@ -27,7 +25,7 @@ class MedicosController extends Controller
     }
 
 
-    public function store(Request $request)
+    /*public function store(Request $request)
     {
         $rules = array(
             'nome' => 'required',
@@ -51,6 +49,32 @@ class MedicosController extends Controller
         Medico::create($form_data);
         return response()->json(['success' => 'Data Added successfully.']);
         
+    } */
+
+    public function store(Request $request)
+    {
+        $rules = array(
+            'nome' => 'required',
+            'CRM' => 'required',
+            'telefone' => 'required',
+            'email' => 'required',
+        );
+        $error = Validator::make($request->all(), $rules);
+        if ($error->fails()) {
+            return response()->json(['errors' => $error->errors()->all()]);
+        }
+        $form_data = array(
+            'nome' => $request->nome,
+            'CRM' => $request->CRM,
+            'telefone' => $request->telefone,
+            'email' => $request->especialidades,
+        );
+        $medico = Medico::create($form_data);
+        $especialidades = json_decode($request->especialidades);
+        if (!empty($especialidades) && is_array($especialidades)) {
+            $medico->especialidades()->attach($especialidades);
+        }
+        return response()->json(['success' => json_encode($request->especialidades) ]);
     }
 
     public function edit($id)

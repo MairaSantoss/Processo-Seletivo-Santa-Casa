@@ -37,6 +37,7 @@ Route::prefix('especialidades')->group(function () {
     Route::get('/edit/{id}/', [EspecialidadesController::class, 'edit'])->name('especialidades.edit');
     Route::post('/update', [EspecialidadesController::class, 'update'])->name('especialidades.update');
     Route::get('/destroy/{id}/', [EspecialidadesController::class, 'destroy'])->name('especialidades.destroy');
+    Route::get('/select', [EspecialidadesController::class, 'select'])->name('especialidades.select');
 });
 
 Route::prefix('medicos')->group(function () {
