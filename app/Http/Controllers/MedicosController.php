@@ -63,18 +63,19 @@ class MedicosController extends Controller
         if ($error->fails()) {
             return response()->json(['errors' => $error->errors()->all()]);
         }
+        $especialidades = json_decode($request->especialidades);
+        if( count($especialidades) == 0){ return response()->json(['errors' => ['Especialidades não pode ser vazia.'] ]);}
         $form_data = array(
             'nome' => $request->nome,
             'CRM' => $request->CRM,
             'telefone' => $request->telefone,
-            'email' => $request->especialidades,
+            'email' => $request->email,
         );
         $medico = Medico::create($form_data);
-        $especialidades = json_decode($request->especialidades);
         if (!empty($especialidades) && is_array($especialidades)) {
             $medico->especialidades()->attach($especialidades);
         }
-        return response()->json(['success' => json_encode($request->especialidades) ]);
+        return response()->json(['success' => 'Data Added successfully.']);
     }
 
     public function edit($id)
@@ -82,7 +83,10 @@ class MedicosController extends Controller
         if(request()->ajax())
         {
             $data = Medico::findOrFail($id);
-            return response()->json(['result' => $data]);
+            // Recuperar as especialidades exclusivas do médico
+            $especialidadesDoMedico = $data->especialidades;
+            //die($especialidadesDoMedico);
+            return response()->json(['result' => $data, 'result2' =>$especialidadesDoMedico ]);
         }
     }
 
@@ -100,6 +104,10 @@ class MedicosController extends Controller
         {
             return response()->json(['errors' => $error->errors()->all()]);
         }
+
+        $especialidades = json_decode($request->especialidades);
+        if( count($especialidades) == 0){ return response()->json(['errors' => ['Especialidades não pode ser vazia.'] ]);}
+
         $form_data = array(
             'nome'         =>  $request->nome,
             'CRM'         =>  $request->CRM,
@@ -107,7 +115,14 @@ class MedicosController extends Controller
             'email'         =>  $request->email
             //'dt_cadastro' =>  8450350
         );
-        Medico::whereId($request->hidden_id)->update($form_data);
+
+    Medico::whereId($request->hidden_id)->update($form_data);
+    // Atualize as especialidades do médico
+   // $especialidades = $request->input('especialidades'); // IDs das especialidades selecionadas
+    $medico = Medico::find($request->hidden_id);
+    // Sincronize as especialidades diretamente
+    $medico->especialidades()->sync($especialidades);
+
         return response()->json(['success' => 'Data is successfully updated']);
     }
 

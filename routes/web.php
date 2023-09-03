@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MedicosController;
 use App\Http\Controllers\EspecialidadesController;
+use App\Http\Controllers\RelatoriosController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -49,5 +50,7 @@ Route::prefix('medicos')->group(function () {
 });
 
 
-Route::view('/medico_especialidades', 'medico_especialidades')->name('medico_especialidades.index');
+Route::prefix('relatorios')->group(function () {
+    Route::get('/', [RelatoriosController::class , 'index'])->name('relatorios.index');
+});
 

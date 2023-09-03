@@ -1,221 +1,379 @@
-//laravelproject\resources\views\users.blade.php
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Laravel Datatables Yajra Server Side</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-  
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
-    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-12 table-responsive">
-        <br />
-        <h3 align="center">Laravel 9 CRUD Datatables Yajra Server Side (Create, Read, Upate and Delete) with Bootstrap 5 Modal</h3>
-        <br />
-        <div align="right">
-            <button type="button" name="create_record" id="create_record" class="btn btn-success"> <i class="bi bi-plus-square"></i> Add</button>
-        </div>
-        <br />
-            <table class="table table-striped table-bordered user_datatable"> 
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th width="180px">Action</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+<!-- resources/views/medicos.blade.php  -->
+@extends('layoutes.app')
+
+@section('title', 'Médico')
+
+@section('tabelaTH')
+    <th>ID</th>
+    <th>Nome</th>
+    <th>CRM</th>
+    <th ></th>
+@endsection
+
+@section('form')
+<style>
+    .select2-selection__rendered{
+        display: none !important;
+    }
+
+    .voltar-btn {
+        border: 1px solid #333;
+        background-color: #f0f0f0;
+        color: #333;
+        padding: 6px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    .voltar-btn:hover {
+        background-color: #ddd;
+    }
+
+    .selected-container {
+    display: flex;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    padding-top: 10px;
+
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+/* Estilize o texto do item selecionado */
+.selected-label {
+    display: inline;
+    text-align: center;
+}
+
+/* Estilize o ícone de remoção */
+.remove-icon {
+    margin-left: 5px;
+    color: red;
+}
+</style>
+
+<div id="especialidade1">
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome" maxlength="45" required><br>
+
+    <label for="CRM">CRM:</label>
+    <input type="text" id="CRM" name="CRM" maxlength="45" required><br>
+
+    <label for="telefone">Telefone:</label>
+    <input type="tel" id="telefone" name="telefone" maxlength="45" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" maxlength="45" required><br> 
+
+    <div class="center" style="margin-top: 30px;">
+        <a href="#" onclick="MostrarAba(2)" class="voltar-btn">PRÓXIMO</a>
     </div>
- 
-    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-        <form method="post" id="sample_form" class="form-horizontal">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ModalLabel">Add New Record</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <span id="form_result"></span>
-                <div class="form-group">
-                    <label>Name : </label>
-                    <input type="text" name="name" id="name" class="form-control" />
-                </div>
-                <div class="form-group">
-                    <label>Email : </label>
-                    <input type="email" name="email" id="email" class="form-control" />
-                </div>
-                <div class="form-group editpass">
-                    <label>Password : </label>
-                    <input type="password" name="password" id="password" class="form-control" />
-                </div>
-                <input type="hidden" name="action" id="action" value="Add" />
-                <input type="hidden" name="hidden_id" id="hidden_id" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <input type="submit" name="action_button" id="action_button" value="Add" class="btn btn-info" />
-            </div>
-        </form>  
-        </div>
-        </div>
-    </div>
- 
-    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-        <form method="post" id="sample_form" class="form-horizontal">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ModalLabel">Confirmation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h4 align="center" style="margin:0;">Are you sure you want to remove this data?</h4>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">OK</button>
-            </div>
-        </form>  
-        </div>
-        </div>
-    </div>
- 
 </div>
-</body>
-<script type="text/javascript">
-$(document).ready(function() {
-    var table = $('.user_datatable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ route('users.index') }}",
-        columns: [
-            {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
-    });
- 
-    $('#create_record').click(function(){
-        $('.modal-title').text('Add New Record');
-        $('#action_button').val('Add');
-        $('#action').val('Add');
-        $('#form_result').html('');
- 
-        $('#formModal').modal('show');
-    });
- 
-    $('#sample_form').on('submit', function(event){
-        event.preventDefault(); 
+
+<div id="especialidade2">
+    <div style="margin-bottom: 150px" >
+    <label for="especialidades">Selecione a especialidade:</label>
+    <br> 
+    <select class="browser-default selectmodal" style="display:block; width: 100%; " name="especialidades[]" id="especialidades" multiple required>
+    </select>
+    <br>  
+    <label for="especialidades">Especialidades:</label> <br> 
+    <div id="selecoes" style="display: flex;"></div>
+    </div>
+    <div class="center" style="margin-top: 30px;">
+        <a href="#" style="color: #000;text-decoration:underline;" onclick="MostrarAba(1)">VOLTAR</a>
+    </div>
+</div>
+@endsection
+
+
+@section('tabelaTH')
+    <th>ID</th>
+    <th>Nome</th>
+    <th>CRM</th>
+    <th ></th>
+@endsection
+
+@section('script')
+<script>
+
+    $('#especialidade2').hide();
+    $('.modal-footer').hide();
+
+    function MostrarAba(aba) {
+        $('#especialidade1').hide();
+        $('#especialidade2').hide();
+        $(`#especialidade${aba}`).show();
+        $('.modal-footer').hide();
+        if(aba == 2)
+        $('.modal-footer').show();
+    }
+
+
+    function EnviarForm() {
+        console.log($('#formdados').serialize());
         var action_url = '';
- 
-        if($('#action').val() == 'Add')
-        {
-            action_url = "{{ route('users.store') }}";
+        if($('#action').val() == 'Add') { action_url = "{{ route('medicos.store') }}"; }
+        if($('#action').val() == 'Edit'){ action_url = "{{ route('medicos.update') }}";}
+        var formData = $('#formdados').serializeArray();
+        var arrayEspecialidades = [];
+
+        var selectedValues = $('#especialidades').val();
+        if (Array.isArray(selectedValues) && selectedValues.length > 0) {
+            arrayEspecialidades = selectedValues.map(function(value) {
+                return parseInt(value, 10); // Converte a string em um número inteiro
+            });
         }
- 
-        if($('#action').val() == 'Edit')
-        {
-            action_url = "{{ route('users.update') }}";
-        }
- 
+        formData.push({ name: "especialidades", value: JSON.stringify(arrayEspecialidades) });
+        console.log(formData);
         $.ajax({
             type: 'post',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             url: action_url,
-            data:$(this).serialize(),
+            data: formData, 
             dataType: 'json',
             success: function(data) {
-                console.log('success: '+data);
+                console.log('success:', data);
                 var html = '';
-                if(data.errors)
-                {
-                    html = '<div class="alert alert-danger">';
-                    for(var count = 0; count < data.errors.length; count++)
-                    {
+                if (data.errors) {
+                    html = '<div style="background-color:#FF6347;">';
+                    for (var count = 0; count < data.errors.length; count++) {
                         html += '<p>' + data.errors[count] + '</p>';
                     }
                     html += '</div>';
                 }
-                if(data.success)
-                {
-                    html = '<div class="alert alert-success">' + data.success + '</div>';
-                    $('#sample_form')[0].reset();
-                    $('#user_table').DataTable().ajax.reload();
+                if (data.success) {
+                    html = '<div style="background-color:#3CB371;">' + data.success + '</div>';
+                    $('#formdados')[0].reset(); // Resetando o formulário
+                    $('#medicos-table').DataTable().ajax.reload(); // Alterado aqui para refletir a tabela
                 }
-                $('#form_result').html(html);
+                $('#modal-dialog').html(html);
             },
             error: function(data) {
                 var errors = data.responseJSON;
                 console.log(errors);
             }
         });
-    });
- 
-    $(document).on('click', '.edit', function(event){
-        event.preventDefault(); 
-        var id = $(this).attr('id'); alert(id);
-        $('#form_result').html('');
- 
-         
- 
+    }
+
+    function ModalEditar(id){
+        var action_url = "{{ route('medicos.edit', ['id' => ':id']) }}";
+        action_url = action_url.replace(':id', id);
         $.ajax({
-            url :"/users/edit/"+id+"/",
+            url: action_url,
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            dataType:"json",
-            success:function(data)
-            {
-                console.log('success: '+data);
-                $('#name').val(data.result.name);
+            dataType: "json",
+            success: function(data) {
+                console.log('success:', data);
+                $('#nome').val(data.result.nome);
+                $('#CRM').val(data.result.CRM);
+                $('#telefone').val(data.result.telefone);
                 $('#email').val(data.result.email);
                 $('#hidden_id').val(id);
-                $('.modal-title').text('Edit Record');
-                $('#action_button').val('Update');
-                $('#action').val('Edit'); 
-                $('.editpass').hide(); 
-                $('#formModal').modal('show');
+                $('#action').val('Edit');
+
+                var especialidadesMedico = [18, 17]; // Substitua pelos IDs reais
+
+                // Percorra a lista de IDs e selecione as opções correspondentes no seletor
+                especialidadesMedico.forEach(function(id) {
+                    $('#especialidades option[value="' + id + '"]').prop('selected', true);
+                });
+
+                previewEspecialidadesSelecionadasAtualizar(especialidadesMedico);
+
+                // Atualize o seletor para refletir as opções selecionadas
+
+                /*  if (Array.isArray(especialidadesMedico) && especialidadesMedico.length > 0) {
+                    especialidadesMedico.forEach(function(id) {
+                    var label = $('select option[value="' + id + '"]').text();
+                    var container = $('<div class="selected-container">');
+                    var labelElement = $('<span class="selected-label">').text(label);
+                    var removeIcon = $('<a class="remove-icon" href="#"><i class="material-icons red-text">cancel</i></a>');
+                    removeIcon.click(function() {
+                        container.remove();
+                        var selectElement = $('#especialidades');
+                        selectElement.val(selectElement.val().filter(function(value) {
+                            return value !== id;
+                        }));
+                        selectElement.formSelect(); 
+                    });
+                    container.append(labelElement);
+                    container.append(removeIcon);
+                    $('#selecoes').append(container);
+                });
+                }*/
+
+                $('#titulo').text("Editar");
+                var enviarForm = document.getElementById('enviarForm');
+                enviarForm.innerText = 'Editar'; 
+                enviarForm.style.background = 'orange'; 
+                $('#modal1').modal('open');
             },
             error: function(data) {
                 var errors = data.responseJSON;
                 console.log(errors);
             }
-        })
-    });
- 
-    var user_id;
- 
-    $(document).on('click', '.delete', function(){
-        user_id = $(this).attr('id');
-        $('#confirmModal').modal('show');
-    });
- 
-    $('#ok_button').click(function(){
+        });
+    }
+
+    function ModalApagar(id){
+        $('.modal-footer').show();
+        $('#hidden_delete_id').val(id);
+        $('#modal2').modal('open');
+    }
+
+    function ModalCriar(){
+        $('#action').val('Add');
+        $('#titulo').text("Criar");
+        $('#descricao').val('');
+        $('#nome').val('');
+        var enviarForm = document.getElementById('enviarForm');
+            enviarForm.innerText = 'Salvar'; 
+            enviarForm.style.background = '#23B000'; 
+            $('#modal1').modal('open');
+    }
+
+    function apagarDados(){
+        var id = $('#hidden_delete_id').val();
+        var action_url = "{{ route('medicos.destroy', ['id' => ':id']) }}";
+        action_url = action_url.replace(':id', id);
         $.ajax({
-            url:"users/destroy/"+user_id,
+            url: action_url,
             beforeSend:function(){
-                $('#ok_button').text('Deleting...');
+                $('#confirmDelete').text('Deletando...');
             },
             success:function(data)
             {
-                setTimeout(function(){
-                $('#confirmModal').modal('hide');
-                $('#user_table').DataTable().ajax.reload();
-                alert('Data Deleted');
-                }, 2000);
+                $('#confirmDelete').text('Apagar');
+                $('#modal2').modal('close');
             }
         })
+    }
+
+    $(document).ready(function() {
+        $('.modal').modal();
+        $(".selectmodal").select2({ dropdownParent: $("#modal1"), });
+        var table = $('.tabelaDados').DataTable({
+        responsive: {
+        breakpoints: [
+            { name: 'bigdesktop', width: Infinity },
+            { name: 'meddesktop', width: 1480 },
+            { name: 'smalldesktop', width: 1280 },
+            { name: 'medium', width: 1188 },
+            { name: 'tabletl', width: 1024 },
+            { name: 'btwtabllandp', width: 848 },
+            { name: 'tabletp', width: 768 },
+            { name: 'mobilel', width: 480 },
+            { name: 'mobilep', width: 320 }
+        ], details: {
+            renderer: function (api, rowIdx, columns) {
+            var data = $.map(columns, function (col, i) {
+                return col.hidden ?
+                '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                '<td><b>' + col.title + '</b>:' + '</td> ' +
+                '<td>' + col.data + '</td>' +
+                '</tr>' :
+                '';
+            }).join('');
+
+            return data ?
+                $('<table/>').append(data) :
+                false;
+            }
+        }
+        },
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('medicos.index') }}",
+            columns: [
+                {data: 'id', name: 'id'},
+                {data: 'nome', name: 'nome'},
+                {data: 'CRM', name: 'CRM'},
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+            ]
+        });
+
+    $.ajax({
+        url: '{{ route("especialidades.select") }}', // Rota que retorna as especialidades
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+            var selectEspecialidades = $('#especialidades');
+            selectEspecialidades.empty(); 
+
+            $.each(data, function(index, especialidade) {
+                selectEspecialidades.append($('<option>', {
+                    value: especialidade.id,
+                    text: especialidade.nome
+                }));
+            });
+        },
+        error: function(error) {
+            console.log(error);
+        }
     });
-});
+
+    $('#especialidades').change(function() {
+        var selectedValues = $(this).val();
+        /*if (Array.isArray(selectedValues) && selectedValues.length > 0) {
+            selectedValues.forEach(function(id) {
+                var label = $('select option[value="' + id + '"]').text();
+                var container = $('<div class="selected-container">');
+                var labelElement = $('<span class="selected-label">').text(label);
+                var removeIcon = $('<a class="remove-icon" href="#"><i class="material-icons red-text">cancel</i></a>');
+                removeIcon.click(function() {
+                    container.remove();
+                    var selectElement = $('#especialidades');
+                    selectElement.val(selectElement.val().filter(function(value) {
+                        return value !== id;
+                    }));
+                    selectElement.formSelect(); 
+                });
+                container.append(labelElement);
+                container.append(removeIcon);
+                $('#selecoes').append(container);
+            });
+        }*/
+        previewEspecialidadesSelecionadasAtualizar(selectedValues);
+    });
+}) 
+
+function previewEspecialidadesSelecionadasAtualizar(selectedValues){
+    
+    $('select').formSelect(); 
+    $('#especialidades').formSelect(); 
+        $('#especialidades').formSelect();
+        $('#selecoes').empty();
+        if (Array.isArray(selectedValues) && selectedValues.length > 0) {
+            selectedValues.forEach(function(id) {
+                var label = $('select option[value="' + id + '"]').text();
+                var container = $('<div class="selected-container">');
+                var labelElement = $('<span class="selected-label">').text(label);
+                var removeIcon = $('<a class="remove-icon" href="#"><i class="material-icons red-text">cancel</i></a>');
+                removeIcon.click(function() {
+                    container.remove();
+                    var selectElement = $('#especialidades');
+                    selectElement.val(selectElement.val().filter(function(value) {
+                        return value !== id;
+                    }));
+                    selectElement.formSelect(); 
+                });
+                container.append(labelElement);
+                container.append(removeIcon);
+                $('#selecoes').append(container);
+            });
+        }
+    }
+
 </script>
-</html>
+@endsection
+
+
+
+
