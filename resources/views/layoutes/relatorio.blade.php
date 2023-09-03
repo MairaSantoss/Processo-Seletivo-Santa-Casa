@@ -28,7 +28,18 @@
     
     @include('partials.menu')
 
+
     <div class="row container">
+
+    <div class="row">
+        @yield('filtro')
+    </div>
+    
+    <div class="row">
+        <button id="filtrarBtn" class="btn waves-effect waves-light" type="button">Filtrar</button>
+        <button id="limparFiltroBtn" class="btn waves-effect waves-light" type="button">Limpar Filtro</button>
+    </div>
+
         <table class="tabelaDados table-reponsive " style="width:100%">
             <thead>
                 <tr>

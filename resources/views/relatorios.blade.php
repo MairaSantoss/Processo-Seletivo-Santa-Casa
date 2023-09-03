@@ -3,6 +3,19 @@
 
 @section('title', 'Especialidade dos médico')
 
+@section('filtro')
+    <div class="input-field col s6">
+    <select name="especialidades" id="especialidades" class="browser-default selectmodal" style="display:block; width: 100%; " >
+            <!-- Adicione as opções de especialidade aqui -->
+        </select>
+    </div>
+    <div class="input-field col s6">
+        <select id="crmMedico" name="crm_medico" class="browser-default selectmodal" style="display:block; width: 100%; ">
+        <!-- As opções serão preenchidas via AJAX -->
+        </select>
+    </div>
+@endsection
+
 @section('tabelaTH')
     <th>ID</th>
     <th>Nome</th>
@@ -33,7 +46,8 @@
 <script>
 $(document).ready(function() {
     $('.modal').modal();
-    $(".selectmodal").select2({ dropdownParent: $("#modal1"), });
+    $(".selectmodal").select2();
+
     var table = $('.tabelaDados').DataTable({
     responsive: {
     breakpoints: [
@@ -56,7 +70,6 @@ $(document).ready(function() {
             '</tr>' :
             '';
         }).join('');
-
         return data ?
             $('<table/>').append(data) :
             false;
@@ -65,7 +78,7 @@ $(document).ready(function() {
     },
         processing: true,
         serverSide: true,
-        ajax: "{{ route('relatorios.index') }}",
+        ajax: "{{ route('relatorios.relatorioMedicoEspecialidade') }}",
         columns: [
             {data: 'id', name: 'id'},
             {data: 'nome', name: 'nome'},
@@ -74,6 +87,49 @@ $(document).ready(function() {
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
+
+    $.ajax({
+        url: '{{ route("especialidades.select") }}', 
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+            var selectEspecialidades = $('#especialidades');
+            selectEspecialidades.empty(); 
+            selectEspecialidades.append('<option value="" disabled selected>Selecione uma especialidade</option>');
+            $.each(data, function(index, especialidade) {
+                selectEspecialidades.append($('<option>', {
+                    value: especialidade.id,
+                    text: '(' + especialidade.id + ')  ' + especialidade.nome
+                }));
+            });
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+
+    $.ajax({
+        url: '{{ route("medicos.selectCRM") }}', 
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            console.log(data);
+            var selectCRM = $('#crmMedico');
+            selectCRM.empty();
+            selectCRM.append('<option value="" disabled selected>Selecione um CRM</option>');
+            $.each(data, function(index, medico) {
+                selectCRM.append($('<option>', {
+                    value: medico,
+                    text: medico
+                }));
+            });
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+
 });
 
 function VisualizarTudo(id){

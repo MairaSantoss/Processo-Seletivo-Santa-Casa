@@ -13,7 +13,7 @@
 
         <li><a href="{{ route('medicos.index') }}"><i class="fas fa-user-md"></i> Médicos</a></li>
         <li><a href="{{ route('especialidades.index') }}"><i class="fas fa-stethoscope"></i> Especialidades</a></li>
-        <li><a href="{{ route('relatorios.index') }}"><i class="fas fa-chart-bar"></i> Especialidades do Médico</a></li>
+        <li><a href="{{ route('relatorios.relatorioMedicoEspecialidade') }}"><i class="fas fa-chart-bar"></i> Especialidades do Médico</a></li>
     </ul>
 
     <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>

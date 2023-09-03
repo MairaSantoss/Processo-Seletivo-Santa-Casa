@@ -7,7 +7,7 @@ use App\Models\Medico;
 
 class RelatoriosController extends Controller
 {
-  public function index(Request $request)
+  public function relatorioMedicoEspecialidade(Request $request)
   {
      // $data = Medico::with('especialidades')->get('id, nome, CRM, telefone');
     $data = Medico::with('especialidades')->get('*');

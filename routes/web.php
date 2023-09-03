@@ -47,10 +47,12 @@ Route::prefix('medicos')->group(function () {
     Route::get('/edit/{id}/', [MedicosController::class, 'edit'])->name('medicos.edit');
     Route::post('/update', [MedicosController::class, 'update'])->name('medicos.update');
     Route::get('/destroy/{id}/', [MedicosController::class, 'destroy'])->name('medicos.destroy');
+    Route::get('/selectCRM',  [MedicosController::class, 'selectCRM'] )->name('medicos.selectCRM');
+
 });
 
 
 Route::prefix('relatorios')->group(function () {
-    Route::get('/', [RelatoriosController::class , 'index'])->name('relatorios.index');
+    Route::get('/', [RelatoriosController::class , 'relatorioMedicoEspecialidade'])->name('relatorios.relatorioMedicoEspecialidade');
 });
 

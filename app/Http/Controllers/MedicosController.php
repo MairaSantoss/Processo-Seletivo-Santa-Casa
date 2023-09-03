@@ -132,5 +132,11 @@ class MedicosController extends Controller
         $data = Medico::findOrFail($id);
         $data->delete();
     }
+
+    public function selectCRM()
+    {
+        $crms = Medico::pluck('CRM')->toArray();
+        return response()->json($crms); 
+    }
     
 }
