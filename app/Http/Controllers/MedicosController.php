@@ -21,7 +21,7 @@ class MedicosController extends Controller
             })
             ->make(true);
         }
-        return view('Medicos');
+        return view('medicos');
     }
 
 

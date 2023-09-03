@@ -40,41 +40,13 @@
         </table>
     </div>
 
-    <div class="botaoAdiconarCadastro">
-        <a class=" btn-floating btn-large waves-light btn "
-            style="background-color:#23B000; margin-top: 1%; float:right;" onclick="ModalCriar();"><i
-                class="material-icons">add</i></a>
-    </div>
-
-    <div id="modal1" class="modal">
-    <div id="modal-dialog"></div>
-        <form method="post"  action='' id="formdados">
-            @csrf
-            <div class="modal-content">
-                <h5><span id='titulo'></span> @yield('title')</h5>
-                @yield('form')
-                <input type="hidden" name="hidden_id" id="hidden_id" />
-                <input type="hidden" name="action" id="action" />
-            </div>
-            <div class="modal-footer">
-                <div class="center">
-                    <a id="enviarForm" onclick="EnviarForm();" class="waves-light btn" style="background: #23B000;border-radius: 6px;"><a>
-                    <a class="waves-light btn modal-close" style="background: #5C5C5C;border-radius: 6px;">Fechar</a>
-                </div>
-            </div>
-        </form>
-    </div>
-
-    <div id="modal2" class="modal">
+    <div id="modal3" class="modal">
         <div class="modal-content">
-            <h5>Confirmar Exclusão</h5>
-            <p>Tem certeza de que deseja apagar os dados?</p>
-            <input type="hidden" name="hidden_delete_id" id="hidden_delete_id" />
+            @yield('modalRead')
         </div>
         <div class="modal-footer">
             <div class="center">
-                <a id="confirmDelete" onclick="apagarDados();" class="waves-light btn" style="background: #FF5733;border-radius: 6px;">Apagar</a>
-                <a class="waves-light btn modal-close" style="background: #5C5C5C;border-radius: 6px;">Cancelar</a>
+                <a class="waves-light btn modal-close" style="background: #5C5C5C;border-radius: 6px;">Fechar</a>
             </div>
         </div>
     </div>
