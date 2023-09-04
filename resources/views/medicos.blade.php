@@ -15,48 +15,7 @@
     .select2-selection__rendered{
         display: none !important;
     }
-
-    .voltar-btn {
-        border: 1px solid #333;
-        background-color: #f0f0f0;
-        color: #333;
-        padding: 6px 15px;
-        text-decoration: none;
-        border-radius: 5px;
-        margin-right: 10px;
-    }
-
-    .voltar-btn:hover {
-        background-color: #ddd;
-    }
-
-    .selected-container {
-    display: flex;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px 10px;
-    padding-top: 10px;
-
-    margin-right: 5px;
-    margin-bottom: 5px;
-    font-size: 15px;
-    line-height: 1.4;
-}
-
-/* Estilize o texto do item selecionado */
-.selected-label {
-    display: inline;
-    text-align: center;
-}
-
-/* Estilize o ícone de remoção */
-.remove-icon {
-    margin-left: 5px;
-    color: red;
-}
 </style>
-
 <div id="especialidade1">
     <label for="nome">Nome:</label>
     <input type="text" id="nome" name="nome" maxlength="45" required><br>
@@ -91,33 +50,24 @@
 </div>
 @endsection
 
-
-@section('tabelaTH')
-    <th>ID</th>
-    <th>Nome</th>
-    <th>CRM</th>
-    <th ></th>
+@section('modalRead')
+    <div class="row">
+        <img style="width: 100px;"  class="col s12 m12 l6" src="{{ asset('images/user.png') }}">
+        <div class="col s12 m12 l6">
+            <h6><b id="medicoNome"></b></h6>
+            <p>CRM: <span id="medicoCRM"></span></p>
+        </div>
+    </div>
+    <p>Email: <span id="medicoEmail"></span></p>
+    <p>Telefone: <span id="medicoTelefone"></span></p>
+    <p>Data de Cadastro: <span id="medicoDataCadastro"></span></p>
+    <h6><b>Especialidades:</b></h6>
+    <ul id="especialidadesList"></ul>
 @endsection
 
 @section('script')
 <script>
-
-    $('#especialidade2').hide();
-    $('.modal-footer').hide();
-
-    function MostrarAba(aba) {
-        $('#especialidade1').hide();
-        $('#especialidade2').hide();
-        $(`#especialidade${aba}`).show();
-        $('.modal-footer').hide();
-        if(aba == 2)
-        $('.modal-footer').show();
-    }
-
-
     function EnviarForm() {
-        console.log($('#formdados').serialize());
-        //captura rota
         var action_url = '';
         if($('#action').val() == 'Add') { action_url = "{{ route('medicos.store') }}"; }
         if($('#action').val() == 'Edit'){ action_url = "{{ route('medicos.update') }}";}
@@ -127,11 +77,10 @@
         var selectedValues = $('#especialidades').val();
         if (Array.isArray(selectedValues) && selectedValues.length > 0) {
             arrayEspecialidades = selectedValues.map(function(value) {
-                return parseInt(value, 10); // Converte a string em um número inteiro
+                return parseInt(value, 10); 
             });
         }
         formData.push({ name: "especialidades", value: JSON.stringify(arrayEspecialidades) });
-        console.log(formData);
         $.ajax({
             type: 'post',
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -139,7 +88,6 @@
             data: formData, 
             dataType: 'json',
             success: function(data) {
-                console.log('success:', data);
                 var html = '';
                 if (data.errors) {
                     html = '<div style="background-color:#FF6347;">';
@@ -154,6 +102,7 @@
                     $('#medicos-table').DataTable().ajax.reload(); 
                 }
                 $('#modal-dialog').html(html);
+                Regarregar();
             },
             error: function(data) {
                 var errors = data.responseJSON;
@@ -171,7 +120,6 @@
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             dataType: "json",
             success: function(data) {
-                console.log('success:', data);
                 $('#nome').val(data.result.nome);
                 $('#CRM').val(data.result.CRM);
                 $('#telefone').val(data.result.telefone);
@@ -201,17 +149,73 @@
         });
     }
 
+    function apagarDados(){
+        var id = $('#hidden_delete_id').val();
+        var action_url = "{{ route('medicos.destroy', ['id' => ':id']) }}";
+        action_url = action_url.replace(':id', id);
+        $.ajax({
+            url: action_url,
+            beforeSend:function(){
+                $('#confirmDelete').text('Deletando...');
+            },
+            success:function(data)
+            {
+                Regarregar();
+                $('#confirmDelete').text('Apagar');
+                $('#modal2').modal('close');
+            }
+        })
+    }
+
+    function VisualizarTudo(id){
+        var action_url = "{{ route('medicos.edit', ['id' => ':id']) }}";
+        action_url = action_url.replace(':id', id);
+        $.ajax({
+            url: action_url,
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            dataType: "json",
+            success: function(data) {
+                var result = data.result;
+                var especialidades = data.result2;
+                $('#medicoId').text(result.id);
+                $('#medicoNome').text(result.nome);
+                $('#medicoCRM').text(result.CRM);
+                $('#medicoEmail').text(result.email);
+                $('#medicoTelefone').text(result.telefone);
+                $('#medicoDataCadastro').text(result.dt_cadastro);
+                $('#especialidadesList').empty();
+                especialidades.forEach(function(especialidade) {
+                    var li = $('<li>').text(  especialidade.nome + ' - ' + especialidade.descricao);
+                    $('#especialidadesList').append(li);
+                });
+                $('#modal3').modal('open');
+            },
+            error: function(data) {
+                var errors = data.responseJSON;
+                console.log(errors);
+            }
+        });
+    }
+
+    function previewEspecialidadesSelecionadasAtualizar(selectedValues){
+        $('select').formSelect(); 
+        $('#especialidades').formSelect();
+        $('#selecoes').empty();
+        if (Array.isArray(selectedValues) && selectedValues.length > 0) {
+            selectedValues.forEach(function(id) {
+                var label = $('select option[value="' + id + '"]').text();
+                var container = $('<div class="selected-container">');
+                var labelElement = $('<span class="selected-label">').text(label);
+                container.append(labelElement);
+                $('#selecoes').append(container);
+            });
+        }
+    }
+
     function ModalApagar(id){
         $('.modal-footer').show();
         $('#hidden_delete_id').val(id);
         $('#modal2').modal('open');
-    }
-
-    function limparModal() {
-        $('#formdados')[0].reset(); 
-        $('#selecoes').empty(); 
-        $('#especialidades').val([]); 
-        $('#especialidades').formSelect(); 
     }
 
     function ModalCriar(){
@@ -224,28 +228,23 @@
             $('#modal1').modal('open');
     }
 
-    function apagarDados(){
-        var id = $('#hidden_delete_id').val();
-        var action_url = "{{ route('medicos.destroy', ['id' => ':id']) }}";
-        action_url = action_url.replace(':id', id);
-        $.ajax({
-            url: action_url,
-            beforeSend:function(){
-                $('#confirmDelete').text('Deletando...');
-            },
-            success:function(data)
-            {
-                $('#confirmDelete').text('Apagar');
-                $('#modal2').modal('close');
-            }
-        })
+    function limparModal() {
+        $('#modal-dialog').html('');
+        $('#formdados')[0].reset(); 
+        $('#selecoes').empty(); 
+        $('#especialidades').val([]); 
+        $('#especialidades').formSelect(); 
     }
 
-    $(document).ready(function() {
+    function Regarregar(){
+        var table = $('.tabelaDados').DataTable();
+        table.ajax.reload();
+    }
 
-        $('.modal').modal();
-        $(".selectmodal").select2({ dropdownParent: $("#modal1"), });
-        var table = $('.tabelaDados').DataTable({
+$(document).ready(function() {
+    $('.modal').modal();
+    $(".selectmodal").select2({ dropdownParent: $("#modal1"), });
+    var table = $('.tabelaDados').DataTable({
         responsive: {
         breakpoints: [
             { name: 'bigdesktop', width: Infinity },
@@ -274,24 +273,26 @@
             }
         }
         },
-            processing: true,
-            serverSide: true,
-            lengthMenu: [],
-            ajax: "{{ route('medicos.index') }}",
-            columns: [
-                {data: 'id', name: 'id'},
-                {data: 'nome', name: 'nome'},
-                {data: 'CRM', name: 'CRM'},
-                {data: 'action', name: 'action', orderable: false, searchable: false},
-            ]
-        });
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json',
+        },
+        processing: true,
+        serverSide: true,
+        lengthMenu: [],
+        ajax: "{{ route('medicos.index') }}",
+        columns: [
+            {data: 'id', name: 'id'},
+            {data: 'nome', name: 'nome'},
+            {data: 'CRM', name: 'CRM'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
 
     $.ajax({
         url: '{{ route("especialidades.select") }}', 
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            console.log(data);
             var selectEspecialidades = $('#especialidades');
             selectEspecialidades.empty(); 
             $.each(data, function(index, especialidade) {
@@ -306,45 +307,24 @@
         }
     });
 
-    $('select').formSelect(); 
-    $('#especialidades').formSelect(); 
     $('#especialidades').change(function() {
         var selectedValues = $(this).val();
         previewEspecialidadesSelecionadasAtualizar(selectedValues);
     });
 
-  /*  removeIcon.click(function() {
-        console.log('a');
-    });*/
-
 }) 
 
-function previewEspecialidadesSelecionadasAtualizar(selectedValues){
-    console.log(selectedValues);
-        $('select').formSelect(); 
-        $('#especialidades').formSelect();
-        $('#selecoes').empty();
-        if (Array.isArray(selectedValues) && selectedValues.length > 0) {
-            console.log('aq');
-            selectedValues.forEach(function(id) {
-                var label = $('select option[value="' + id + '"]').text();
-                var container = $('<div class="selected-container">');
-                var labelElement = $('<span class="selected-label">').text(label);
-                var removeIcon = $('<a class="remove-icon" href="#"><i class="material-icons red-text">cancel</i></a>');
-                /*removeIcon.click(function() {
-                    container.remove();
-                    var selectElement = $('#especialidades');
-                    selectElement.val(selectElement.val().filter(function(value) {
-                        return value !== id;
-                    }));
-                    selectElement.formSelect(); 
-                });*/
-                container.append(labelElement);
-                container.append(removeIcon);
-                $('#selecoes').append(container);
-            });
-        }
-    }
+$('#especialidade2').hide();
+$('.modal-footer').hide();
+
+function MostrarAba(aba) {
+    $('#especialidade1').hide();
+    $('#especialidade2').hide();
+    $(`#especialidade${aba}`).show();
+    $('.modal-footer').hide();
+    if(aba == 2)
+    $('.modal-footer').show();
+}
 
 </script>
 @endsection

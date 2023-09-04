@@ -1,3 +1,4 @@
+/* formulario */
 label{
     font-size: 15px !important;
     color: #000 !important;
@@ -25,6 +26,26 @@ textarea::placeholder {
     background-color: rgb(211, 210, 210) !important; 
     color: black !important; 
 }
+
+
+/*preview select do formulario*/
+.selected-container {
+    display: flex;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    padding-top: 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.selected-label {
+    display: inline;
+    text-align: center;
+} 
 
 /* modal */
 #titulo {
@@ -60,23 +81,21 @@ textarea::placeholder {
 
 /* botoes */
 .botaoAdiconarCadastro{
-    bottom: 30px;
-    right: 30px;
-    position: fixed;
-    width: auto;
+    font-weight: 500;
+    align-items: center;
 }
 
 .botaoFiltro {
-    background-color: #797979; /* Cor de fundo do botão */
-    color: #fff; /* Cor do texto do botão */
-    padding: 10px 20px; /* Espaçamento interno do botão */
-    border: none; /* Remova a borda padrão */
-    border-radius: 5px; /* Cantos arredondados */
-    cursor: pointer; /* Ícone de cursor de mão ao passar o mouse */
-    transition: background-color 0.3s ease; /* Transição suave da cor de fundo */
-    font-size: 16px; /* Tamanho da fonte */
-    font-weight: bold; /* Peso da fonte */
-    text-transform: uppercase; /* Transforma o texto em maiúsculas */
+    background-color: #797979; 
+    color: #fff; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease; 
+    font-size: 16px;
+    font-weight: bold; 
+    text-transform: uppercase; 
 }
 
 /* tabela */
@@ -97,9 +116,17 @@ th {
 
 .BotaoTabela {
     margin: 10px !important;
-    color: #000 !important;
 }
 
+.fa-trash-alt{
+    color: #ff0000 !important;
+}
+.fa-edit{
+    color: #ff7300 !important;
+}
+.fa-eye{
+    color: #272727;
+}
 /* menu lateral */
 .marginLeftTabela{
     margin-left: 120px !important;
@@ -109,4 +136,30 @@ th {
     .marginLeftTabela{
         margin-left: 10px !important;
     }
+}
+
+/* botao proximo/voltar do formulario */
+
+.voltar-btn {
+    border: 1px solid #333;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 6px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.voltar-btn:hover {
+    background-color: #ddd;
+}
+
+.texto-menu {
+    position: absolute;
+    color: #000; /* Cor do texto */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 4px;
+    text-align: center;
 }

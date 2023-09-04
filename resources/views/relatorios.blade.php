@@ -4,15 +4,14 @@
 @section('title', 'Especialidade dos médico')
 
 @section('filtro')
-
     <div class="input-field col s12 m6 l3">
         <select name="especialidades" id="especialidades" class="browser-default selectmodal" style="display:block; width: 100%; " >
-            <!-- Adicione as opções de especialidade aqui -->
+            <!-- As opções serão preenchidas via AJAX -->
         </select>
     </div>
     <div class="input-field col s12 m6 l3">
         <select id="crmMedico" name="crm_medico" class="browser-default selectmodal" style="display:block; width: 100%; ">
-        <!-- As opções serão preenchidas via AJAX -->
+            <!-- As opções serão preenchidas via AJAX -->
         </select>
     </div>
 @endsection
@@ -26,16 +25,13 @@
 @endsection
 
 @section('modalRead')
-    <div class="row user-view">
-        <img style="width: 60px;"  src="{{ asset('images/user.png') }}">
-        
-        <a href="#name"><span class="black-text name"><h5><b id="medicoNome"></b></h5></span></a>
-        <a href="#email"><span class="black-text email">mairagraziela123@hotmail.com</span></a>
+    <div class="row">
+        <img style="width: 100px;"  class="col s12 m12 l6" src="{{ asset('images/user.png') }}">
+        <div class="col s12 m12 l6">
+            <h6><b id="medicoNome"></b></h6>
+            <p>CRM: <span id="medicoCRM"></span></p>
+        </div>
     </div>
-
-    <h6><b>Médico</b></h6>
-    <p>ID: <span id="medicoId"></span></p>
-    <p>CRM: <span id="medicoCRM"></span></p>
     <p>Email: <span id="medicoEmail"></span></p>
     <p>Telefone: <span id="medicoTelefone"></span></p>
     <p>Data de Cadastro: <span id="medicoDataCadastro"></span></p>
@@ -93,33 +89,36 @@ $(document).ready(function() {
     });
 
     table = $('.tabelaDados').DataTable({
-    responsive: {
-    breakpoints: [
-        { name: 'bigdesktop', width: Infinity },
-        { name: 'meddesktop', width: 1480 },
-        { name: 'smalldesktop', width: 1280 },
-        { name: 'medium', width: 1188 },
-        { name: 'tabletl', width: 1024 },
-        { name: 'btwtabllandp', width: 848 },
-        { name: 'tabletp', width: 768 },
-        { name: 'mobilel', width: 480 },
-        { name: 'mobilep', width: 320 }
-    ], details: {
-        renderer: function (api, rowIdx, columns) {
-        var data = $.map(columns, function (col, i) {
-            return col.hidden ?
-            '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
-            '<td><b>' + col.title + '</b>:' + '</td> ' +
-            '<td>' + col.data + '</td>' +
-            '</tr>' :
-            '';
-        }).join('');
-        return data ?
-            $('<table/>').append(data) :
-            false;
+        responsive: {
+        breakpoints: [
+            { name: 'bigdesktop', width: Infinity },
+            { name: 'meddesktop', width: 1480 },
+            { name: 'smalldesktop', width: 1280 },
+            { name: 'medium', width: 1188 },
+            { name: 'tabletl', width: 1024 },
+            { name: 'btwtabllandp', width: 848 },
+            { name: 'tabletp', width: 768 },
+            { name: 'mobilel', width: 480 },
+            { name: 'mobilep', width: 320 }
+        ], details: {
+            renderer: function (api, rowIdx, columns) {
+            var data = $.map(columns, function (col, i) {
+                return col.hidden ?
+                '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                '<td><b>' + col.title + '</b>:' + '</td> ' +
+                '<td>' + col.data + '</td>' +
+                '</tr>' :
+                '';
+            }).join('');
+            return data ?
+                $('<table/>').append(data) :
+                false;
+            }
         }
-    }
-    },
+        },
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json',
+        },
         processing: true,
         serverSide: true,
         ajax: "{{ route('relatorios.relatorioMedicoEspecialidade') }}",
@@ -131,7 +130,6 @@ $(document).ready(function() {
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
-
 });
 
 function VisualizarTudo(id){
@@ -166,45 +164,45 @@ function VisualizarTudo(id){
 
 function Filtrar() {
     if ($.fn.DataTable.isDataTable('.tabelaDados')) {
-    $('.tabelaDados').DataTable().destroy();
-}
-
+        $('.tabelaDados').DataTable().destroy();
+    }
     var crmMedicoSelecionado = $('#crmMedico').val();
     var especialidadeSelecionada = $('#especialidades').val();
-
-    // Construa a URL da rota com os parâmetros de filtro
     var action_url = "{{ route('relatorios.filtroRelatorio', ['crm_medico' => ':crm_medico', 'especialidades' => ':especialidades']) }}"
     .replace(':crm_medico', crmMedicoSelecionado)
     .replace(':especialidades', especialidadeSelecionada);
 
-    $('#tabelaDados').DataTable({
-    responsive: {
-    breakpoints: [
-        { name: 'bigdesktop', width: Infinity },
-        { name: 'meddesktop', width: 1480 },
-        { name: 'smalldesktop', width: 1280 },
-        { name: 'medium', width: 1188 },
-        { name: 'tabletl', width: 1024 },
-        { name: 'btwtabllandp', width: 848 },
-        { name: 'tabletp', width: 768 },
-        { name: 'mobilel', width: 480 },
-        { name: 'mobilep', width: 320 }
-    ], details: {
-        renderer: function (api, rowIdx, columns) {
-        var data = $.map(columns, function (col, i) {
-            return col.hidden ?
-            '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
-            '<td><b>' + col.title + '</b>:' + '</td> ' +
-            '<td>' + col.data + '</td>' +
-            '</tr>' :
-            '';
-        }).join('');
-        return data ?
-            $('<table/>').append(data) :
-            false;
+    $('.tabelaDados').DataTable({
+        responsive: {
+        breakpoints: [
+            { name: 'bigdesktop', width: Infinity },
+            { name: 'meddesktop', width: 1480 },
+            { name: 'smalldesktop', width: 1280 },
+            { name: 'medium', width: 1188 },
+            { name: 'tabletl', width: 1024 },
+            { name: 'btwtabllandp', width: 848 },
+            { name: 'tabletp', width: 768 },
+            { name: 'mobilel', width: 480 },
+            { name: 'mobilep', width: 320 }
+        ], details: {
+            renderer: function (api, rowIdx, columns) {
+            var data = $.map(columns, function (col, i) {
+                return col.hidden ?
+                '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                '<td><b>' + col.title + '</b>:' + '</td> ' +
+                '<td>' + col.data + '</td>' +
+                '</tr>' :
+                '';
+            }).join('');
+            return data ?
+                $('<table/>').append(data) :
+                false;
+            }
         }
-    }
-    },
+        },
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json',
+        },
         processing: true,
         serverSide: true,
         ajax: action_url,

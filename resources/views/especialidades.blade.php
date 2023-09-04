@@ -3,7 +3,6 @@
 
 @section('title', 'Especialidade')
 
-
 @section('tabelaTH')
     <th>ID</th>
     <th>Nome</th>
@@ -66,11 +65,9 @@ $(document).ready(function() {
 }) 
 
 function EnviarForm() {
-    console.log($('#formdados').serialize());
     var action_url = '';
     if($('#action').val() == 'Add') { action_url = "{{ route('especialidades.store') }}"; }
     if($('#action').val() == 'Edit'){ action_url = "{{ route('especialidades.update') }}";}
-    console.log($('#action').val());
     $.ajax({
         type: 'post',
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
@@ -78,7 +75,6 @@ function EnviarForm() {
         data: $('#formdados').serialize(), 
         dataType: 'json',
         success: function(data) {
-            console.log('success:', data);
             var html = '';
             if (data.errors) {
                 html = '<div style="background-color:#FF6347;">';
@@ -126,7 +122,7 @@ function Regarregar(){
 }
 
 function ModalEditar(id){
-    $('#modal-dialog').html('');
+    limparModal();
     var action_url = "{{ route('especialidades.edit', ['id' => ':id']) }}";
     action_url = action_url.replace(':id', id);
     $.ajax({
@@ -134,7 +130,6 @@ function ModalEditar(id){
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         dataType: "json",
         success: function(data) {
-            console.log('success:', data);
             $('#nome').val(data.result.nome);
             $('#titulo').text("Editar");
             $('#hidden_id').val(id);
@@ -158,15 +153,20 @@ function ModalApagar(id){
 }
 
 function ModalCriar(){
-    $('#modal-dialog').html('');
+    limparModal();
     $('#action').val('Add');
     $('#titulo').text("Criar");
-    $('#descricao').val('');
-    $('#nome').val('');
     var enviarForm = document.getElementById('enviarForm');
         enviarForm.innerText = 'Salvar'; 
         enviarForm.style.background = '#23B000'; 
         $('#modal1').modal('open');
+}
+
+
+function limparModal() {
+    $('#modal-dialog').html('');
+    $('#descricao').val('');
+    $('#nome').val('');
 }
 </script>
 @endsection

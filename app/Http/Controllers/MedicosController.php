@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Medico;
 use Illuminate\Http\Request;
 use Validator;
@@ -13,9 +12,10 @@ class MedicosController extends Controller
         if ($request->ajax()) {
             return \Yajra\DataTables\DataTables::of($data)->addIndexColumn()
             ->addColumn('action', function($data){
-                $button = '<a onclick="ModalEditar(this.id)" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Edit</a>';
+                $button = '<a  href="#" onclick="ModalEditar(this.id)"  id="'.$data->id.'" class=" BotaoTabela btn-primary btn-sm"> <i class="fas fa-edit fa-lg"></i></a>';
+                $button .= '<a href="#" onclick="ModalApagar(this.id)"  id="'.$data->id.'" class=" BotaoTabela  btn-primary btn-sm"> <i class="fas fa-trash-alt  fa-lg"></i></a>';
 
-                $button .= '<a onclick="ModalApagar(this.id)" name="edit" id="'.$data->id.'" class="delet btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Apagar</a>';
+                $button .= '<a href="#" class="BotaoTabela" onclick="VisualizarTudo(this.id)" id="'.$data->id.'" > <i class="fas fa-eye fa-lg"></i></a>';
 
                 return $button;
             })
@@ -56,9 +56,7 @@ class MedicosController extends Controller
         if(request()->ajax())
         {
             $data = Medico::findOrFail($id);
-            // Recuperar as especialidades exclusivas do médico
             $especialidadesDoMedico = $data->especialidades;
-            //die($especialidadesDoMedico);
             return response()->json(['result' => $data, 'result2' =>$especialidadesDoMedico ]);
         }
     }
@@ -70,38 +68,27 @@ class MedicosController extends Controller
             'CRM' => 'required',
             'telefone' => 'required',
             'email' => 'required'
-        //   'dt_cadastro' => 'required'
         );
         $error = Validator::make($request->all(), $rules);
-        if($error->fails())
-        {
+        if($error->fails())  {
             return response()->json(['errors' => $error->errors()->all()]);
         }
-
         $especialidades = json_decode($request->especialidades);
         if( count($especialidades) == 0){ return response()->json(['errors' => ['Especialidades não pode ser vazia.'] ]);}
-
         $form_data = array(
             'nome'         =>  $request->nome,
             'CRM'         =>  $request->CRM,
             'telefone'         =>  $request->telefone,
             'email'         =>  $request->email
-            //'dt_cadastro' =>  8450350
         );
-
-    Medico::whereId($request->hidden_id)->update($form_data);
-    // Atualize as especialidades do médico
-   // $especialidades = $request->input('especialidades'); // IDs das especialidades selecionadas
-    $medico = Medico::find($request->hidden_id);
-    // Sincronize as especialidades diretamente
-    $medico->especialidades()->sync($especialidades);
-
+        Medico::whereId($request->hidden_id)->update($form_data);
+        $medico = Medico::find($request->hidden_id);
+        $medico->especialidades()->sync($especialidades);
         return response()->json(['success' => 'Editado com sucesso!']);
     }
 
     public function destroy($id)
     {
-        //die($id);
         $data = Medico::findOrFail($id);
         $data->delete();
     }
@@ -111,5 +98,4 @@ class MedicosController extends Controller
         $crms = Medico::pluck('CRM')->toArray();
         return response()->json($crms); 
     }
-    
 }

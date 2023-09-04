@@ -1,7 +1,3 @@
-
-  <!--   <link rel="stylesheet" href="{{ asset('css/menu.css') }}">  Exemplo: substitua 'css/app.css' pelo caminho correto do seu CSS -->
-
-<!-- resources/views/layouts/app.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,8 +12,7 @@
     <!-- datatable -->
     <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
     <!-- datatable responsive -->
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
     <!-- css - UI -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/crud.css') }}"  />
     <link type="text/css" rel="stylesheet" href="{{ asset('css/materialize.min.css') }}" media="screen,projection">
@@ -29,24 +24,29 @@
     
     @include('partials.menu')
 
+    <div class="texto-menu">
+        <h5> @yield('title')s</h5>
+    </div>
+    
     <div class="row container">
         <div class=" center row">
             @yield('filtro')
             <div class="col s12 m12 l6" style="margin-top: 13px;">
-                <button onclick="Filtrar()" id="filtrarBtn" class="botaoFiltro" type="button">Filtrar</button>
-                <button onclick="Limpar()" id="limparFiltroBtn" class="botaoFiltro" type="button">Limpar filtro</button>
+                <a onclick="Filtrar()" id="filtrarBtn" class="botaoFiltro" type="button">Filtrar</a>
+                <a onclick="Limpar()" id="limparFiltroBtn" class="botaoFiltro" type="button">Limpar filtro</a>
             </div>
         </div>
-
-        <table id="tabelaDados" class="tabelaDados table-reponsive " style="width:100%">
-            <thead>
-                <tr>
-                    @yield('tabelaTH')
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="col s12 m12 l12 ">
+            <table class="tabelaDados table-reponsive " style="width:100%">
+                <thead>
+                    <tr>
+                        @yield('tabelaTH')
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div id="modal3" class="modal">
@@ -63,7 +63,7 @@
     <footer>
         <p>© {{ date('Y') }} Todos os direitos reservados.</p>
     </footer>
- 
+
     <!-- request e acoes -->
     @yield('script')
     <!-- js  -->
@@ -75,7 +75,6 @@
     <!-- select com pesquisa -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
 </body>
 </html>
 
