@@ -8,9 +8,10 @@
 </p>
 
 ## Orientações de uso
-- 1 - Apache e Mysql iniciados. 
-- 2 - Na raiz do projeto migrar o banco de dados com: php artisan migrate. 
-- 3 - Iniciar o projeto, copiar a url e colocar no google: php artisan serve.
+- 1 - Configure a conexão com o banco de dados.
+- 2 - Apache e Mysql iniciados. 
+- 3 - Na raiz do projeto migrar o banco de dados com: php artisan migrate. 
+- 4 - Iniciar o projeto, copiar a url e colocar no google: php artisan serve.
 ## Descrição
     Projeto originado do processo seletivo do Hospital Santa Casa. As expectativas do projeto eram duas entidades, sendo médico e especialidade. Essas duas entidades tem um relacionamento muito para muitos. O sistema deve permitir operações Crud com as entidades. O sistema deve ter um filtro com CRM e especialidade. 
 
