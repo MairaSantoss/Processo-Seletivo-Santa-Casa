@@ -6,7 +6,9 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
+
 ## Orientação para uso
+
 - 1 - Ter apache e mysql iniciados. 
 - 2 - Na raiz do projeto migrar o banco de dados com: php artisan migrate. 
 - 3 - Iniciar o projeto e copiar a url e colocar no google: php artisan serve.
