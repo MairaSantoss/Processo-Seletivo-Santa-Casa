@@ -24,33 +24,6 @@ class MedicosController extends Controller
         return view('medicos');
     }
 
-
-    /*public function store(Request $request)
-    {
-        $rules = array(
-            'nome' => 'required',
-            'CRM' => 'required',
-            'telefone' => 'required',
-            'email' => 'required'
-         //   'dt_cadastro' => 'required'
-        );
-        $error = Validator::make($request->all(), $rules);
-        if($error->fails())
-        {
-            return response()->json(['errors' => $error->errors()->all()]);
-        }
-        $form_data = array(
-            'nome'         =>  $request->nome,
-            'CRM'         =>  $request->CRM,
-            'telefone'         =>  $request->telefone,
-            'email'         =>  $request->email
-            //'dt_cadastro' =>  8450350
-        );
-        Medico::create($form_data);
-        return response()->json(['success' => 'Data Added successfully.']);
-        
-    } */
-
     public function store(Request $request)
     {
         $rules = array(
@@ -75,7 +48,7 @@ class MedicosController extends Controller
         if (!empty($especialidades) && is_array($especialidades)) {
             $medico->especialidades()->attach($especialidades);
         }
-        return response()->json(['success' => 'Data Added successfully.']);
+        return response()->json(['success' => 'Adicionado com sucesso!']);
     }
 
     public function edit($id)
@@ -123,7 +96,7 @@ class MedicosController extends Controller
     // Sincronize as especialidades diretamente
     $medico->especialidades()->sync($especialidades);
 
-        return response()->json(['success' => 'Data is successfully updated']);
+        return response()->json(['success' => 'Editado com sucesso!']);
     }
 
     public function destroy($id)

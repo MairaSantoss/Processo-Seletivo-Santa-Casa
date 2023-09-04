@@ -13,10 +13,8 @@ class EspecialidadesController extends Controller
         if ($request->ajax()) {
             return \Yajra\DataTables\DataTables::of($data)->addIndexColumn()
                 ->addColumn('action', function($data){
-                    $button = '<a onclick="ModalEditar(this.id)" name="edit" id="'.$data->id.'" class="edit btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Edit</a>';
-
-                    $button .= '<a onclick="ModalApagar(this.id)" name="edit" id="'.$data->id.'" class="delet btn btn-primary btn-sm"> <i class="bi bi-pencil-square"></i>Apagar</a>';
-
+                    $button = '<a  href="#" onclick="ModalEditar(this.id)"  id="'.$data->id.'" class=" BotaoTabela btn-primary btn-sm"> <i class="fas fa-edit fa-lg"></i></a>';
+                    $button .= '<a href="#" onclick="ModalApagar(this.id)"  id="'.$data->id.'" class=" BotaoTabela  btn-primary btn-sm"> <i class="fas fa-trash-alt  fa-lg"></i></a>';
                     return $button;
                 })
                 ->make(true);
@@ -40,7 +38,7 @@ class EspecialidadesController extends Controller
             'descricao'         =>  $request->descricao
         );
         Especialidade::create($form_data);
-        return response()->json(['success' => 'Data Added successfully.']);
+        return response()->json(['success' => 'Adicionado com sucesso!']);
         
     }
 
@@ -69,7 +67,7 @@ class EspecialidadesController extends Controller
             'descricao'     =>  $request->descricao
         );
         Especialidade::whereId($request->hidden_id)->update($form_data);
-        return response()->json(['success' => 'Data is successfully updated']);
+        return response()->json(['success' => 'Editado com sucesso!']);
     }
 
     public function destroy($id)

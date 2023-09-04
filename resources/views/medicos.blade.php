@@ -1,5 +1,5 @@
 <!-- resources/views/medicos.blade.php  -->
-@extends('layoutes.app')
+@extends('layoutes.crud')
 
 @section('title', 'Médico')
 
@@ -276,6 +276,7 @@
         },
             processing: true,
             serverSide: true,
+            lengthMenu: [],
             ajax: "{{ route('medicos.index') }}",
             columns: [
                 {data: 'id', name: 'id'},

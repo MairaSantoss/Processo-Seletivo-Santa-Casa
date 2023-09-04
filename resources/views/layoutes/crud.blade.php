@@ -1,7 +1,4 @@
 
-  <!--   <link rel="stylesheet" href="{{ asset('css/menu.css') }}">  Exemplo: substitua 'css/app.css' pelo caminho correto do seu CSS -->
-
-<!-- resources/views/layouts/app.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +16,7 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
     <!-- css - UI -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/crud.css') }}"  />
     <link type="text/css" rel="stylesheet" href="{{ asset('css/materialize.min.css') }}" media="screen,projection">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -29,19 +27,23 @@
     @include('partials.menu')
 
     <div class="row container">
-        <table class="tabelaDados table-reponsive " style="width:100%">
-            <thead>
-                <tr>
-                    @yield('tabelaTH')
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="col s0 m2 l2 ">
+        </div>
+        <div class=" marginLeftTabela col s12 m12 l12 ">
+            <table class="tabelaDados table-reponsive " style="width:100%">
+                <thead>
+                    <tr>
+                        @yield('tabelaTH')
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <div class="botaoAdiconarCadastro">
-        <a class=" btn-floating btn-large waves-light btn "
+        <a class="botaoAdiconarCadastro btn-floating btn-large waves-light btn "
             style="background-color:#23B000; margin-top: 1%; float:right;" onclick="ModalCriar();"><i
                 class="material-icons">add</i></a>
     </div>
@@ -78,10 +80,6 @@
             </div>
         </div>
     </div>
-
-    <footer>
-        <p>© {{ date('Y') }} Todos os direitos reservados.</p>
-    </footer>
  
     <!-- request e acoes -->
     @yield('script')

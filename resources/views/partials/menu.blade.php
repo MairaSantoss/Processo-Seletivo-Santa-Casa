@@ -1,12 +1,12 @@
-<nav>
+<nav class="white" style="margin-bottom: 30px;">
     <!-- navbar content here -->
 
     <ul id="slide-out" class="sidenav sidenav-fixed">
 
     <li><div class="user-view">
-
-        <a class=" row center" href="#user"><img class="circle" src="{{ asset('images/user.png') }}"></a>
-
+        <div style="display: flex; justify-content: center; align-items: center; ">
+            <img class="circle" src="{{ asset('images/santacasa.jpg') }}">
+        </div>
         <a href="#name"><span class="black-text name">Maíra Santos</span></a>
         <a href="#email"><span class="black-text email">mairagraziela123@hotmail.com</span></a>
     </div></li>
@@ -16,16 +16,13 @@
         <li><a href="{{ route('relatorios.relatorioMedicoEspecialidade') }}"><i class="fas fa-chart-bar"></i> Especialidades do Médico</a></li>
     </ul>
 
-    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <a href="#" data-target="slide-out" class="sidenav-trigger"><i style="color: #000; font-size: 30px;" class="material-icons">menu</i></a>
 </nav>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var sidenavElem = document.querySelector('.sidenav');
         var sidenavInstance = M.Sidenav.init(sidenavElem, {});
-        
-        if (window.innerWidth < 992) { // 992 é a largura para tablets
-            sidenavInstance.close();
-        }
     });
 </script>
+

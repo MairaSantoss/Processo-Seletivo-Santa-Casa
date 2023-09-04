@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
     <!-- css - UI -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/crud.css') }}"  />
     <link type="text/css" rel="stylesheet" href="{{ asset('css/materialize.min.css') }}" media="screen,projection">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -28,17 +29,14 @@
     
     @include('partials.menu')
 
-
     <div class="row container">
-
-    <div class="row">
-        @yield('filtro')
-    </div>
-    
-    <div class="row">
-        <button onclick="Filtrar()" id="filtrarBtn" class="btn waves-effect waves-light" type="button">Filtrar</button>
-        <button onclick="Limpar()" id="limparFiltroBtn" class="btn waves-effect waves-light" type="button">Limpar Filtro</button>
-    </div>
+        <div class=" center row">
+            @yield('filtro')
+            <div class="col s12 m12 l6" style="margin-top: 13px;">
+                <button onclick="Filtrar()" id="filtrarBtn" class="botaoFiltro" type="button">Filtrar</button>
+                <button onclick="Limpar()" id="limparFiltroBtn" class="botaoFiltro" type="button">Limpar filtro</button>
+            </div>
+        </div>
 
         <table id="tabelaDados" class="tabelaDados table-reponsive " style="width:100%">
             <thead>

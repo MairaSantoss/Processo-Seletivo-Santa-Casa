@@ -4,12 +4,13 @@
 @section('title', 'Especialidade dos médico')
 
 @section('filtro')
-    <div class="input-field col s6">
-    <select name="especialidades" id="especialidades" class="browser-default selectmodal" style="display:block; width: 100%; " >
+
+    <div class="input-field col s12 m6 l3">
+        <select name="especialidades" id="especialidades" class="browser-default selectmodal" style="display:block; width: 100%; " >
             <!-- Adicione as opções de especialidade aqui -->
         </select>
     </div>
-    <div class="input-field col s6">
+    <div class="input-field col s12 m6 l3">
         <select id="crmMedico" name="crm_medico" class="browser-default selectmodal" style="display:block; width: 100%; ">
         <!-- As opções serão preenchidas via AJAX -->
         </select>
