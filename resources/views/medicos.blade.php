@@ -16,38 +16,33 @@
         display: none !important;
     }
 </style>
-<div id="especialidade1">
     <label for="nome">Nome:</label>
     <input type="text" id="nome" name="nome" maxlength="45" required><br>
 
-    <label for="CRM">CRM:</label>
-    <input type="text" id="CRM" name="CRM" maxlength="45" required><br>
-
-    <label for="telefone">Telefone:</label>
-    <input type="tel" id="telefone" name="telefone" maxlength="45" required><br>
+    <div style="display: flex;">
+        <div style="width: 50%; margin-right: 10px;">
+            <label for="CRM">CRM:</label>
+            <input type="text" id="CRM" name="CRM" maxlength="45" required><br>
+        </div>
+        <div style="width: 50%">
+            <label for="telefone">Telefone:</label>
+            <input type="tel" id="telefone" name="telefone" maxlength="45" required><br>
+        </div>
+    </div>
 
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" maxlength="45" required><br> 
 
-    <div class="center" style="margin-top: 30px;">
-        <a href="#" onclick="MostrarAba(2)" class="voltar-btn">PRÓXIMO</a>
+    <div style="margin-bottom: 120px" >
+        <label for="especialidades">Selecione a especialidade:</label>
+        <br> 
+        <select class="browser-default selectmodal" style="display:block; width: 100%; " name="especialidades[]" id="especialidades" multiple required>
+        </select>
+        <br>  
+        <label for="especialidades">Especialidades:</label> <br> 
+        <div id="selecoes" style="display: flex;"></div>
     </div>
-</div>
 
-<div id="especialidade2">
-    <div style="margin-bottom: 150px" >
-    <label for="especialidades">Selecione a especialidade:</label>
-    <br> 
-    <select class="browser-default selectmodal" style="display:block; width: 100%; " name="especialidades[]" id="especialidades" multiple required>
-    </select>
-    <br>  
-    <label for="especialidades">Especialidades:</label> <br> 
-    <div id="selecoes" style="display: flex;"></div>
-    </div>
-    <div class="center" style="margin-top: 30px;">
-        <a href="#" style="color: #000;text-decoration:underline;" onclick="MostrarAba(1)">VOLTAR</a>
-    </div>
-</div>
 @endsection
 
 @section('modalRead')
@@ -97,7 +92,7 @@
                     html += '</div>';
                 }
                 if (data.success) {
-                    html = '<div style="background-color:#3CB371;">' + data.success + '</div>';
+                    html = '<p style="background-color:#3CB371;  margin-top: 15px; padding: 3px;">' + data.success + '</p>';
                     $('#formdados')[0].reset();
                     $('#medicos-table').DataTable().ajax.reload(); 
                 }
@@ -213,7 +208,6 @@
     }
 
     function ModalApagar(id){
-        $('.modal-footer').show();
         $('#hidden_delete_id').val(id);
         $('#modal2').modal('open');
     }
@@ -314,17 +308,7 @@ $(document).ready(function() {
 
 }) 
 
-$('#especialidade2').hide();
-$('.modal-footer').hide();
 
-function MostrarAba(aba) {
-    $('#especialidade1').hide();
-    $('#especialidade2').hide();
-    $(`#especialidade${aba}`).show();
-    $('.modal-footer').hide();
-    if(aba == 2)
-    $('.modal-footer').show();
-}
 
 </script>
 @endsection

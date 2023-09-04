@@ -49,7 +49,7 @@
     </div>
 
     <div id="modal1" class="modal">
-        <div id="modal-dialog"></div>
+        <div class="center" style=" font-weight: 500;" id="modal-dialog"></div>
         <form method="post"  action='' id="formdados">
             @csrf
             <div class="modal-content">

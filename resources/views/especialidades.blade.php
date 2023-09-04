@@ -77,14 +77,14 @@ function EnviarForm() {
         success: function(data) {
             var html = '';
             if (data.errors) {
-                html = '<div style="background-color:#FF6347;">';
+                html = '<div style="background-color:#FF6347; ">';
                 for (var count = 0; count < data.errors.length; count++) {
                     html += '<p>' + data.errors[count] + '</p>';
                 }
                 html += '</div>';
             }
             if (data.success) {
-                html = '<div style="background-color:#3CB371;">' + data.success + '</div>';
+                html = '<p style="background-color:#3CB371;  margin-top: 15px; padding: 3px;">' + data.success + '</p>';
                 $('#formdados')[0].reset(); // Resetando o formulário
                 $('#especialidades-table').DataTable().ajax.reload(); // Alterado aqui para refletir a tabela
             }
