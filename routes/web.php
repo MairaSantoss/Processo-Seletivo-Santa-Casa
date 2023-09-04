@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('santacasa.welcome');
 
 Route::prefix('especialidades')->group(function () {
     Route::get('/', [EspecialidadesController::class , 'index'] )->name('especialidades.index');

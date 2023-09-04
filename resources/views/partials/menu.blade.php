@@ -4,9 +4,13 @@
     <ul id="slide-out" class="sidenav sidenav-fixed">
 
     <li><div class="user-view">
+
         <div style="display: flex; justify-content: center; align-items: center; ">
-            <img class="circle" src="{{ asset('images/santacasa.jpg') }}">
+            <a href="{{ route('santacasa.welcome') }}">
+                <img class="circle" src="{{ asset('images/santacasa.jpg') }}" alt="Santa Casa">
+            </a>
         </div>
+
         <a href="#name"><span class="black-text name">Maíra Santos</span></a>
         <a href="#email"><span class="black-text email">mairagraziela123@hotmail.com</span></a>
     </div></li>
