@@ -7,11 +7,10 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Orientação para uso
-
-- 1 - Ter apache e mysql iniciados. 
+## Orientações de uso
+- 1 - Apache e Mysql iniciados. 
 - 2 - Na raiz do projeto migrar o banco de dados com: php artisan migrate. 
-- 3 - Iniciar o projeto e copiar a url e colocar no google: php artisan serve.
+- 3 - Iniciar o projeto, copiar a url e colocar no google: php artisan serve.
 ## Descrição
     Projeto originado do processo seletivo do Hospital Santa Casa. As expectativas do projeto eram duas entidades, sendo médico e especialidade. Essas duas entidades tem um relacionamento muito para muitos. O sistema deve permitir operações Crud com as entidades. O sistema deve ter um filtro com CRM e especialidade. 
 
