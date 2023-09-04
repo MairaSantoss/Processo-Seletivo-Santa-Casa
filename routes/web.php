@@ -51,8 +51,8 @@ Route::prefix('medicos')->group(function () {
 
 });
 
-
 Route::prefix('relatorios')->group(function () {
     Route::get('/', [RelatoriosController::class , 'relatorioMedicoEspecialidade'])->name('relatorios.relatorioMedicoEspecialidade');
+    Route::get('/filtroRelatorio/{crm_medico}/{especialidades}', [RelatoriosController::class , 'filtroRelatorio'])->name('relatorios.filtroRelatorio');
 });
 

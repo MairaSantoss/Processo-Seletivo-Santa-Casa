@@ -36,11 +36,11 @@
     </div>
     
     <div class="row">
-        <button id="filtrarBtn" class="btn waves-effect waves-light" type="button">Filtrar</button>
-        <button id="limparFiltroBtn" class="btn waves-effect waves-light" type="button">Limpar Filtro</button>
+        <button onclick="Filtrar()" id="filtrarBtn" class="btn waves-effect waves-light" type="button">Filtrar</button>
+        <button onclick="Limpar()" id="limparFiltroBtn" class="btn waves-effect waves-light" type="button">Limpar Filtro</button>
     </div>
 
-        <table class="tabelaDados table-reponsive " style="width:100%">
+        <table id="tabelaDados" class="tabelaDados table-reponsive " style="width:100%">
             <thead>
                 <tr>
                     @yield('tabelaTH')
