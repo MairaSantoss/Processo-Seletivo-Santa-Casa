@@ -59,10 +59,6 @@
         </div>
     </div>
 
-    <footer>
-        <p>© {{ date('Y') }} Todos os direitos reservados.</p>
-    </footer>
-
     <!-- request e acoes -->
     @yield('script')
     <!-- js  -->
