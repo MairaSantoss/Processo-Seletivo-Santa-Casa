@@ -99,6 +99,10 @@ textarea::placeholder {
 
 /* tabela */
 
+.dataTables_processing{
+    display: hidden !important;
+    top:0 !important;
+}
 tr:hover {background-color:  #e6e6e6 !important; }
 
 td{ border-bottom: 2px solid #e6e6e6 !important; }

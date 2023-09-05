@@ -53,7 +53,7 @@
         <form method="post"  action='' id="formdados">
             @csrf
             <div class="modal-content">
-                <h5> @yield('title')</h5>
+                <h5 style="font-size: 22px;"> <span id="titulo"></span> @yield('title')</h5>
                 @yield('form')
                 <input type="hidden" name="hidden_id" id="hidden_id" />
                 <input type="hidden" name="action" id="action" />

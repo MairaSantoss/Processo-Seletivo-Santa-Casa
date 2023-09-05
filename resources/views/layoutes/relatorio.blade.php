@@ -36,7 +36,7 @@
             </div>
         </div>
         <div class="col s12 m12 l12 ">
-            <table class="tabelaDados table-reponsive " style="width:100%">
+            <table id="tabelaDados" class="tabelaDados table-reponsive " style="width:100%">
                 <thead>
                     <tr>
                         @yield('tabelaTH')
