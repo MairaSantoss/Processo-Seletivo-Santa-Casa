@@ -1,4 +1,7 @@
 
+## Assista o vídeo
+https://drive.google.com/file/d/1qp9Qqh7DX90EUBM-XGl28yGTIaJBjN-a/view?usp=sharing
+
 ## Descrição
     Projeto originado do processo seletivo do Hospital Santa Casa. As expectativas do projeto eram duas entidades, sendo médico e especialidade. Essas duas entidades tem um relacionamento muito para muitos. O sistema deve permitir operações Crud com as entidades. O sistema deve ter um filtro com CRM e especialidade. 
 
