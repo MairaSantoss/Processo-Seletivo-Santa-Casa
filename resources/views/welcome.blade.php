@@ -35,6 +35,7 @@
 <body>
     
     @include('partials.menu')
+    
     <div class="content">
         <p style="color: #02e502; font-weight: bold; font-size: 17px;">Bem-vindo</p>
         <p style="color: #797979 ; font-weight: bold; font-size: 15px;">Portal Santa Casa - Tecnologia e produtividade</p>

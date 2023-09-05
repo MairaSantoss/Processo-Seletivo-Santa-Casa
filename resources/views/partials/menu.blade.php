@@ -32,7 +32,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Inicialize o menu lateral
         var sidenavElem = document.querySelector('.sidenav');
         var sidenavInstance = M.Sidenav.init(sidenavElem, {});
     });

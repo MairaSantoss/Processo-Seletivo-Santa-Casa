@@ -169,8 +169,6 @@ function Filtrar() {
     var action_url = "{{ route('relatorios.filtroRelatorio', ['crm_medico' => ':crm_medico', 'especialidades' => ':especialidades']) }}"
         .replace(':crm_medico', crmMedicoSelecionado)
         .replace(':especialidades', especialidadeSelecionada);
-
-    // Use ajax.reload() para atualizar os dados da tabela
     tabela.ajax.url(action_url).load();
 }
 
